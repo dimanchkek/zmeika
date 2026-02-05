@@ -43,6 +43,40 @@
             height: auto;
         }
         
+        /* Кнопка "Назад" — всегда видна */
+        #back-button {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(200, 0, 0, 0.7);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 200;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            transition: all 0.2s;
+            user-select: none;
+        }
+        
+        #back-button:hover {
+            background: rgba(255, 0, 0, 0.9);
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(255, 0, 0, 0.7);
+        }
+        
+        #back-button:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 8px rgba(255, 0, 0, 0.7);
+        }
+        
         .menu {
             position: absolute;
             top: 0;
@@ -250,7 +284,6 @@
         #left-btn { grid-column: 1; grid-row: 2; }
         #down-btn { grid-column: 2; grid-row: 2; }
         #right-btn { grid-column: 3; grid-row: 2; }
-        
         #center-btn {
             grid-column: 2;
             grid-row: 2;
@@ -268,6 +301,7 @@
             .settings-item { font-size: 1.3rem; }
             .toggle-label { font-size: 1.4rem; }
             canvas { margin-bottom: 10px; }
+            #back-button { top: 10px; right: 10px; width: 45px; height: 45px; font-size: 20px; }
         }
         
         @media (max-width: 450px) {
@@ -277,6 +311,7 @@
             #control-panel { gap: 8px; padding: 8px; }
             .control-btn { font-size: 2.2rem; min-height: 60px; }
             .settings-item { width: 90%; font-size: 1.4rem; }
+            #back-button { top: 10px; right: 10px; width: 40px; height: 40px; font-size: 18px; }
         }
         
         .instructions {
@@ -299,6 +334,9 @@
 <body>
     <div id="game-container">
         <canvas id="game-canvas" width="600" height="600"></canvas>
+        
+        <!-- Кнопка "Назад" — всегда видна -->
+        <button id="back-button" title="Вернуться в главное меню">←</button>
         
         <div id="main-menu" class="menu">
             <h1>ЗМЕЙКА</h1>
@@ -371,6 +409,10 @@
             const controlPanel = document.getElementById('control-panel');
             const touchToggle = document.getElementById('touch-toggle');
             const finalScoreEl = document.getElementById('final-score');
+            const backButton = document.getElementById('back-button'); // Новая кнопка
+            
+            // Обработчик для кнопки "Назад"
+            backButton.addEventListener('click', showMainMenu);
             
             // Кнопки меню
             document.getElementById('start-btn').addEventListener('click', startGame);
@@ -734,6 +776,7 @@
                 aboutMenu.style.display = 'none';
                 gameOverMenu.style.display = 'none';
                 controlPanel.style.display = useTouchControls ? 'grid' : 'none';
+                backButton.style.display = 'flex'; // Показываем кнопку "Назад"
                 gameState = 'GAME';
                 setTimeout(gameFrame, GAME_SPEED);
             }
@@ -743,6 +786,7 @@
                 finalScoreEl.textContent = score;
                 gameOverMenu.style.display = 'flex';
                 controlPanel.style.display = 'none';
+                backButton.style.display = 'none'; // Скрываем во время Game Over
             }
             
             function showMainMenu() {
@@ -752,6 +796,7 @@
                 aboutMenu.style.display = 'none';
                 gameOverMenu.style.display = 'none';
                 controlPanel.style.display = 'none';
+                backButton.style.display = 'none'; // Скрываем в главном меню
             }
             
             function showSettings() {
@@ -761,6 +806,7 @@
                 aboutMenu.style.display = 'none';
                 gameOverMenu.style.display = 'none';
                 controlPanel.style.display = 'none';
+                backButton.style.display = 'none'; // Скрываем в настройках
             }
             
             function showAbout() {
@@ -770,6 +816,7 @@
                 aboutMenu.style.display = 'flex';
                 gameOverMenu.style.display = 'none';
                 controlPanel.style.display = 'none';
+                backButton.style.display = 'none'; // Скрываем в "Об игре"
             }
             
             // Инициализация: показ главного меню
